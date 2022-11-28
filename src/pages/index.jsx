@@ -139,35 +139,35 @@ function Newsletter() {
 function Resume() {
   let resume = [
     {
-      company: 'Planetaria',
-      title: 'CEO',
+      company: 'Illuminate',
+      title: 'SRE',
       logo: logoPlanetaria,
-      start: '2019',
+      start: '2022',
       end: {
         label: 'Present',
         dateTime: new Date().getFullYear(),
       },
     },
     {
-      company: 'Airbnb',
-      title: 'Product Designer',
+      company: 'SelectQuote',
+      title: 'Network Engineer III',
       logo: logoAirbnb,
-      start: '2014',
-      end: '2019',
+      start: '2022',
+      end: '2022',
     },
     {
-      company: 'Facebook',
-      title: 'iOS Software Engineer',
+      company: 'Oppor',
+      title: 'Network Engineer',
       logo: logoFacebook,
-      start: '2011',
-      end: '2014',
+      start: '2021',
+      end: '2022',
     },
     {
-      company: 'Starbucks',
-      title: 'Shift Supervisor',
-      logo: logoStarbucks,
-      start: '2008',
-      end: '2011',
+      company: 'Oppor',
+      title: 'Systems Administrator',
+      logo: logoFacebook,
+      start: '2017',
+      end: '2021',
     },
   ]
 
