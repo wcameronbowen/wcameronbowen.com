@@ -50,12 +50,12 @@
   # If you want to generate Atom feeds, you will need to adjust the site metadata config below:
 
   # Required:
-site_url = "https://www.example.com/~jrandomhacker"
+  site_url = "https://wcameronbowen.com"
 
   # Optional but strongly recommended:
-  # site_author = "J. Random Hacker"
+  site_author = "Cameron Bowen"
   # site_author_email = "jrandomhacker@example.com"
-  # site_title = "My website"
+  site_title = "Write to Think"
   # site_logo = "https://example.com/~jrandomhacker/favicon.png"
 
   # Completely optional: 
