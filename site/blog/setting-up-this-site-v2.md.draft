@@ -1,0 +1,42 @@
+<post-metadata>
+  <post-title>Using Soupault for a Blog</post-title>
+  <post-date>2024-07-30</post-date>
+  <post-tags>soupault</post-tags>
+</post-metadata>
+
+AKA "How I Setup This Site v2"
+
+## Problem
+I love static sites (not the problem). They are simple and take little space and bandwidth. Static sites load quickly (even without caching), and can be hosted for free or close to $0 per month (goodbye subscriptions). They are the antithesis of WordPress. 
+
+There's a catch though, I could write HTML and CSS. I'm familiar enough with them to get words on a page, but I'm aiming for spending time thinking/writing not tweaking pages on the blog. I need to lower the barrier to writing or 1000 other less important optimizations will crowd out the main purpose of the site. But I do need some modern features, and don't want to temporarily blind my fellow night owls every time they want to read a post. I need a tool to:
+1. Generate HTML from markdown
+1. Generate CSS for a reasonably responsive site 
+1. Parse the given files to create a feed (you use an RSS feed right??) and update a posts section 
+1. Gets out of my way when I go to write
+
+Cue the long list of static site generators (the problem) with which I have fallen in and out of love. A good portion of them killed by the 1) abstractions getting in the way or 2) dependency hell when installing the tool itself (or a related theme). I tried no theme with Hugo to avoid all that and it worked decently enough, but it felt like I was fighting the tool. It also didn't have nearly the user base/community as some of the older SSGs. My experiences with Jekyll and Github Pages were frustrating to say the least. Of course you could point out, "well if you don't know Go or Ruby, don't use Hugo or Jekyll". Fair, at the time I used Hugo I didn't know Go. At the time I used Ruby I was expecting to be using it more, but job change shifted that. This still leaves me with a problem. I need some abstractions (markdown is a useful one), but writing raw HTML/CSS isn't really an option. Also I get burned by themes way too much.  
+
+My first attempt for this site was with Jekyll, it's tried and true. Jekyll has been around for years and seems a popular option, very well supported with some exceptions (*cough* looking at you Github Pages *cough*). Have you installed Ruby recently? Have you installed Ruby on Fedora and tried to use `gem` and `bundler`? Ruby (or Gem or Bundler, who knows at this point) started throwing files in my `$HOME/bin` directory! What are you doing Ruby?? That's a sacred space.
+
+Grab the binary and run it.
+
+```bash
+cd blueprints
+soupault
+```
+
+Need a preview before pushing a change? Spin up a quick web server (I chose python in this instance).
+
+```bash
+python3 -m http.server --directory build
+```
+
+I love that soupault is centered around HTML. I do want my tools to (slowly) force me to fundamentals. However, I need that at a pace that doesn't  disract from what I'm trying to accomplish here, developing a writing habit. Soupault does that for me. I can use a markdown pre-processor to get raw HTML, but if one day I decide I want to start writing my own HTML I can easily switch by creating `.html` files instead of `.md` files and changing a couple lines in the `config.toml`. 
+
+You can see my first attempt with Jekyll at [How I Setup This Site](/blog/setting-up-this-site/), due to some unique ways in which Fedora handles Ruby Gems you have to be very careful how you install Gems. I ran into multiple issues install gems and using bundler. I am by no means a regular ruby user and after stumbling around found someone who shared my pain and cared to write about it!
+
+https://tartansandal.github.io/fedora/ruby/2020/02/05/installing-ruby-gems-on-fedora.html
+
+The soupault install is a single binary. That's it. No crazy dependencies. If development stops I should be able to use it for years to come. 
+
