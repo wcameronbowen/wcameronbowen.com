@@ -1,0 +1,87 @@
+<post-metadata>
+  <post-title>AWS DNS Resolvers and Monitoring</post-title>
+  <post-date>2024-09-13</post-date>
+  <post-tags>dns, python</post-tags>
+</post-metadata>
+
+DNS is of course notorious for causing issues and is difficult to manage at scale across sites and teams. One solution we decided to target was to deploy Route53 Resolvers in AWS to allow routing on-prem DNS to our Windows DNS servers (yep on-prem AD is still a thing in 2024). In doing this we needed a simple way to measure uptime of the AD DNS servers. Attempting to keep this somewhat simple. I devised a fairly simple python script to query a couple records per zone per DNS server and post the results to CloudWatch as a simple integer `0` (down) or `1` (up).
+
+```
+import boto3
+import dns.message
+import dns.rdataclass
+import dns.rdatatype
+import dns.query
+
+cloudwatch = boto3.client('cloudwatch')
+
+def udp_dns_query(server,query,timeout,type):
+    # match type string with the corresponding rdatatype
+    type_dict = {
+        'A': dns.rdatatype.A,
+        'NS': dns.rdatatype.NS,
+        'SOA': dns.rdatatype.SOA,
+    }
+
+    try:
+        qname = dns.name.from_text(query)
+        q = dns.message.make_query(qname, type_dict[type])
+        r = dns.query.udp(q, server, timeout)
+
+        # check if rcode is not 0 (NOERROR)
+        if r.rcode() != 0:
+            print(f"DNS server responded with an error state code of {r.rcode()} for record {query}")
+            return 0
+        print(f"DNS server responded with a NOERROR, rcode of {r.rcode()} for record {query}")
+        return 1
+
+    # catch a timeout (based on configured timeout below)
+    except dns.exception.Timeout:
+        print(f"DNS query timed out after {timeout}s")
+        return 0
+
+def put_cloudwatch_metrics(server_ip,domain,type,status):
+    response = cloudwatch.put_metric_data(
+        MetricData = [
+            {
+                'MetricName': 'DNSServerStatus',
+                'Dimensions': [
+                    {
+                        'Name': 'SERVER_IP',
+                        'Value': server_ip
+                    },
+                    {
+                        'Name': 'DOMAIN',
+                        'Value': domain
+                    },
+                    {
+                        'Name': 'TYPE',
+                        'Value': type
+                    },
+                ],
+                'Unit': 'Count',
+                'Value': status
+            },
+        ],
+        Namespace='Custom/ADServers'
+    )
+
+types = ["A", "NS", "SOA"]
+domains = ["sqis-corp.com"]
+server_ips = ["10.24.1.113", "10.24.2.203"]
+timeout = 5 # in seconds
+
+def lambda_handler(event, context):
+    for server_ip in server_ips:
+        for domain in domains:
+            for type in types:
+                #fail = 0 pass = 1
+                status = udp_dns_query(server_ip, domain, timeout, type)
+                put_cloudwatch_metrics(server_ip, domain, type, status)
+```
+
+Since I hate using layers in Lambda, I also created a simple Dockerfile and built an image to use for creating the lambda.
+
+Dockerfile
+```
+```
