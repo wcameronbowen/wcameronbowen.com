@@ -10,7 +10,7 @@ writing habit!
 
 ## Experience
 ### Cloud Architect
-SelectQuote Insurance Services
+SelectQuote Insurance Services<br>
 Jan 2024 - Present (8 months)
 
 * Personally, reduced cloud usage by more than $960K annually by rightsizing our compute, removing
@@ -37,7 +37,7 @@ based on identity
 * Wrote lots of Terraform as well as trained other teams on how to use Terraform
 
 ### Site Reliability Engineer
-Illuminate
+Illuminate<br>
 Oct 2022 - Jan 2024 (1 year 4 months)
 
 * Managed Linux systems including, configuring, troubleshooting, maintaining as well as developing
@@ -70,7 +70,7 @@ migrations
 * Helped troubleshoot, manage, and deploy HL7 interfaces using Mirth Connect
 
 ### Network Engineer III
-SelectQuote Insurance Services
+SelectQuote Insurance Services<br>
 Jul 2022 - Oct 2022 (4 months)
 
 * Lead project to re-architect our accounts in AWS and increase our security posture by moving
@@ -91,7 +91,7 @@ some scripting to decrease build time and improve reliability.
 * Managed multiple data centers and sites to ensure maximum uptime
 
 ### Network Engineer II
-SelectQuote Insurance Services
+SelectQuote Insurance Services<br>
 Jan 2022 - Jul 2022 (7 months)
 
 * Worked troubleshooting network issues such as switching, routing, IPSec VPN tunnels, dynamic
@@ -109,7 +109,7 @@ some scripting to decrease build time and improve reliability.
 * Managed multiple data centers and sites to ensure maximum uptime
 
 ### Network Engineer
-Oppor Co
+Oppor Co<br>
 Dec 2020 - Jan 2022 (1 year 2 months)
 
 * Managed network equipment for all clients from small businesses to multi-site enterprises
@@ -131,21 +131,21 @@ push to the appropriate resource using Rest APIs
 * Design and implement modern wireless networks for hospitals and surgery centers
 
 ## Education
-**University of West Florida**
-Bachelor of Science (B.S.), Clinical Laboratory Science
+**University of West Florida**<br>
+Bachelor of Science (B.S.), Clinical Laboratory Science<br>
 2013 - 2014
 
 ## Licenses & Certifications
 
-**CCNA** - Cisco
+**CCNA** - Cisco<br>
 Issued Dec 2021 - Expires Dec 2024
 
-**AWS Certified Solutions Architect – Associate** - Amazon Web Services (AWS)
+**AWS Certified Solutions Architect – Associate** - Amazon Web Services (AWS)<br>
 Issued May 2022 - Expires May 2025
 
-**Medical Laboratory Scientist (ASCP-MLS)** - American Society for Clinical Pathology
+**Medical Laboratory Scientist (ASCP-MLS)** - American Society for Clinical Pathology<br>
 (ASCP)
-Issued Aug 2023 - Expires Aug 2026
+Issued Aug 2023 - Expires Aug 2026<br>
 250005
 
 ## Skills
