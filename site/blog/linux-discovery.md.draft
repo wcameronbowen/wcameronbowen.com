@@ -1,0 +1,58 @@
+<post-metadata>
+  <post-title>Linux Discovery</post-title>
+  <post-date>2024-11-27</post-date>
+  <post-tags>linux</post-tags>
+</post-metadata>
+
+I have a lot of respect for people who can navigate a Linux system without needing to lookup commands or constantly reference `man` pages. I am not one of those people.
+
+The goal of this article is to summarize the steps I would take if given a Linux machine and asked to troubleshoot what is wrong with it or figure out what it is used for without much additional context. If a system is having performance issues I would start with the Performance tools below. Otherwise, if this is basic discovery on what a system is doing I'd probably start at the top. Obviously this is not a playbook for every situation, just a collection of useful tools/commands and a very rough categorization of how they are used. 
+
+### Processes
+Find which processes are running, then check if there are any processes that should be running but are not. Inspect those processes, their logs, their schedules (if applicable).
+1. `date` - check the time! this could save you a lot of pointless troubleshooting
+1. `ps -aux` - find processes running
+1. `systemctl status` - get info about all processes or a specific process from `systemd`
+1. `strace -p <pid>` - inspect process as it is running
+1. `crontab` - check for scheduled processes
+
+### Logs
+Check logs for the kernel as well as other system level (non-application) logs.
+1. `dmesg` - check for kernel log messages, very useful for finding messages about broken hardware
+1. `journalctl -xe` - find logs for systems that support `systemd` log aggregation
+1. `/var/log` - poke around, tends to hold most logs for most applications
+
+### Performance
+See what is consuming resources and check if any volumes/partitions are full.
+1. `top` - check CPU, Memory, etc, check which processes are consuming the most resources
+1. `df -h` - check filesystem usage
+1. `free -h` - check memory usage
+
+### Disk
+Check what disks are attached to this server as well as usage of those disks/partitions/filesystems. Check what is being mounted on boot by `fstab`.
+1. `lsblk` - list block devices `lsblk`
+1. `df -h` - list filesystems and usage
+1. `cat /etc/fstab` - look at /etc/fstab to see volumes being mounted
+1. `fdisk` - look at partitions on a disk
+1. `cat /proc/mounts` - show volumes mounted
+
+### Networking
+Check how many interfaces are attached and active. Check IPs and routing tables
+1. `ifconfig` or `ip a` - check interfaces and related details
+1. `ip route <route>` - check route for a given IP/CIDR
+1. `resolvectl status` or `cat /etc/resolv.conf` - check dns settings
+1. `ss -aln` or `netstat -aln` - check what processes are listening on which ports 
+1. `tcpdump -i any -c5 -nn` - dump 5 packets from any interface and don't resolve DNS names or port numbers
+
+### Package Managers
+1. Check the following
+```
+apt
+dnf
+yum
+rpm
+```
+
+Don't forget to use `man` pages!
+
+Written in conjunction with [Adam Thiede](https://adamthiede.com/)
