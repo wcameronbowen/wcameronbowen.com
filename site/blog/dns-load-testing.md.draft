@@ -1,0 +1,31 @@
+<post-metadata>
+  <post-title>Load Testing DNS</post-title>
+  <post-date>2024-11-23</post-date>
+  <post-tags>dns</post-tags>
+</post-metadata>
+
+## DNS Load Testing
+
+Install 
+```
+sudo add-apt-repository ppa:dns-oarc/dnscap
+sudo apt update
+sudo apt install dnscap
+```
+
+use dnscap
+```
+sudo dnscap -w -i vxlan1 - | sudo  tcpdump -r -
+```
+
+so far no luck, checking if any headers in capture see also [[using tcpdump in linux]]
+```
+tcpdump -i vxlan1 -c 5 -e
+```
+
+decapsulation seems to be working fine
+looks like just something with `tcpdump` not accepting or parsing the input correctly
+see traffic coming through the filters with this command
+```
+dnscap -i vxlan1 -w ./test.txt
+```

@@ -1,0 +1,63 @@
+<post-metadata>
+  <post-title>First Movers</post-title>
+  <post-date>2024-11-22</post-date>
+  <post-tags>foundations</post-tags>
+</post-metadata>
+
+## Overview
+In managing systems at scale, we need centralized command and control of those systems. With user facing devices, this often comes in the form of an MDM solution. For cloud resources, the cloud providers tend to expose that ability through an API. This frequently involves installing an agent. VMware and other hypervisors have an agent that is fairly simple to install and enables deeper management of a virtual machine. Whether trying to establish a baseline (patching, OS level, monitoring, etc.) across environments or having a source of truth a first mover is a core capability for managing systems at scale. Once you have implemented a first mover, you enable a host of other capabilities. Requirements will be discussed later in this article, but keep in mind the [Lindy Effect](https://en.wikipedia.org/wiki/Lindy_effect)). Stay away from tools that have not proven themselves over time and could go away tomorrow. For sake of scope this article will focus on first movers related to traditional systems management. Workstations, mobile devices, and appliances (including networking devices) are not included in this discussion though similar principles apply. 
+With a first mover in place, you open the door to other foundational capabilities, for example:
+1. Patching
+1. Inventory
+1. Change Management
+1. Configuration Management
+
+## Examples
+Windows environments tend to solve the first mover by default (congrats Microsoft, you got something right). GPOs have been the dominant first mover in those environments. GPOs are implemented at the OS level for Servers and Workstations. At boot or login the system checks in for policies from a central server. This model is powerful. The only initial requirement is that the device is joined to AD. This is such a good first mover many companies maintain complicated AD infrastructure in order to keep that capability.
+
+In Linux environments, there are many options. An extremely popular first mover is Ansible, because Ansible has the unique capability to configure appliances (like networking devices) as well as classic server systems.
+
+DHCP can be used as a first mover. DHCP options like Option 43 for Ubiquiti's Unifi line can point a system at a specific server to fetch a configuration and be adopted into a controller which is then able to push future changes.
+
+Some more recent first movers are MDM services like JAMF which can be installed cross platform and enables control of the system. These are primarily oriented to mobile devices and workstations.
+
+Most of the above are products, but a python script could be a first mover (Ansible is a fancy python script).
+
+## Requirements
+A first mover will have the following three capabilities:
+1. Root level access to a system (admin access to an API would also count)
+2. Ability to run ad-hoc and/or scheduled commands which enable future control
+3. Cross-platform
+
+A brief discussion of these requirements. First, in order to get any meaningful work done on a given system including installing other tooling, root/admin access is required. Without elevated access to a given system the whole point of a first mover is negated. If security is a concern a pattern of using a first mover once to install another (more trusted) tool can be used. Second, There must be some method of executing commands on the target system. This can be done ad-hoc or on a schedule. This can be providing a manifest or explicitly running a command. However, this is accomplished has little impact as long at at least one method of running a command is available. The third is a pseudo-requirement. Violate it only with good reason. If you have the privilege of working only in Windows, Linux, or BSD congrats. You are the envy of many. For the rest of us we must accept that we've been handed (or perhaps created) a smattering of different operating systems. Having a single hammer with which to solve the first mover need is extremely beneficial (see comments about GPOs above).
+
+None of the above require a first mover, but at scale and especially with small teams very little will get done without one.
+
+## Not Requirements
+A confusing topic that frequently arises is attempting to force the first mover into a specific role. The first movers role is to enable the following by installing other tools or running simple commanes (e.g. report CPU inventory with a simple `lscpu` command, or get CPU usage with `top`). These statements are important, but are not what we are attempting to solve with a first mover.
+* "We need a patching solution"
+* "We need antivirus"
+* "We need monitoring"
+
+To clarify what we are not looking for:
+1. Metrics/Observability - we are not looking for a logging or metrics gathering solution
+2. Container Management - this will be for virtual machines and potentially some bare metal servers, managing container configuration should be done with a new container
+3. Patch Management - while this would be a plus, it is not a requirement
+4. Secrets - while a first mover may require a secret to operate, a secret by itself cannot perform actions on a machine it merely authenticates/authorizes an agent/user
+5. One Tool - a first mover may be two tools working together, a client process and server process, or a client process that pulls from a centralized storage location (repo or object storage)
+
+## Deployment
+How do you deploy a first mover? The closer to the initilization process you can get the better.
+Options:
+1. Bake into an image
+2. Inject at boot/runtime (pxe, user data, etc.)
+3. Push after initial boot (ansible/ssh, etc.)
+4. Manually install (run script via dedicated terminal session or gui session, click a button, etc.)
+
+## FAQs
+1. Don't we just need _x_ (Ansible, Chef, SSM, etc.) tool? A first mover is not about a specific tool, but rather the fundamental capability to connect to your infrastructure and modify it in meaningful ways
+
+## Glosssary
+* systems - any device,server,environment where you have access to the underlying OS and can configure it without reasonable restriction (cloud VMs may be an exception here)
+* appliances - any device,server,environment where you do not have full access to the underlying OS
+
