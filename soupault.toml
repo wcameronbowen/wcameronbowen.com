@@ -59,7 +59,8 @@
   site_author = "Cameron Bowen"
   # site_author_email = "jrandomhacker@example.com"
   site_title = "Write to Think"
-  # site_logo = "https://example.com/~jrandomhacker/favicon.png"
+  # sets logo for atom feed
+  site_logo = "/favicon.png"
 
   # Completely optional: 
   # site_subtitle = "Some subtitle"
