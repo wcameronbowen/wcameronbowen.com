@@ -1,6 +1,6 @@
 <post-metadata>
   <post-title>On Tools</post-title>
-  <post-date>2025-6-20</post-date>
+  <post-date>2025-06-20</post-date>
   <post-tags>tools, note-to-self</post-tags>
 </post-metadata>
 
