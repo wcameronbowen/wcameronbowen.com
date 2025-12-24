@@ -88,7 +88,13 @@ while (i <= tag_count) do
   tag_page = {}
   tag_page["page_file"] = Sys.join_path(tag_path, format("%s.html", tag))
   tag_page["page_content"] = build_tag_page(site_index, tag)
-  
+
+  -- Create the tag directory in the build path (required in soupault 5.x)
+  -- Convert site/blog/tag/rant.html -> build/blog/tag/rant/
+  local build_tag_dir = Regex.replace(tag_page["page_file"], "^site/", "build/")
+  build_tag_dir = Regex.replace(build_tag_dir, "\\.html$", "")
+  Sys.run_program("mkdir -p " .. build_tag_dir)
+
   pages[i] = tag_page
 
   i = i + 1
@@ -122,5 +128,9 @@ env["tag_links"] = tag_links
 local all_tags_page = {}
 all_tags_page["page_file"] = Sys.join_path(tag_path, "index.html")
 all_tags_page["page_content"] = String.render_template(template, env)
+
+-- Ensure the tag directory exists in the build path (required in soupault 5.x)
+local build_tag_dir = Regex.replace(tag_path, "^site/", "build/")
+Sys.run_program("mkdir -p " .. build_tag_dir)
 
 pages[size(pages) + 1] = all_tags_page
